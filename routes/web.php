@@ -17,5 +17,3 @@ Auth::routes(['register' => false]); //Remove registration from login page
 
 Route::get('/', 'HomeController@index')->name('home'); //Default home page
 Route::get('/home', 'HomeController@index')->name('home'); //Default home page
-
-//Route::get('logout', array('uses' => 'HomeController@doLogout')); //Logout

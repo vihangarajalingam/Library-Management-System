@@ -27,10 +27,4 @@ class HomeController extends Controller
     {
         return view('index');
     }
-
-    public function doLogout()
-    {
-        Auth::logout();
-        return Redirect::to('login'); // redirect the user to the login screen
-    }
 }
