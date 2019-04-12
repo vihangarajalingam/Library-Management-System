@@ -13,7 +13,11 @@
 
 Auth::routes(); //Authentication
 
-Auth::routes(['register' => false]); //Remove registration from login page
-
 Route::get('/', 'HomeController@index')->name('home'); //Default home page
-Route::get('/home', 'HomeController@index')->name('home'); //Default home page
+Route::get('/home', 'HomeController@index'); //Rerouted home page
+
+Route::get('/register', 'HomeController@register')->name('registerUser'); //Registration page
+Route::post('/register', 'HomeController@registerForm')->name('registerForm');
+
+Route::get('/password-reset', 'HomeController@changePassword')->name('changePassword');
+Route::post('/password-reset', 'HomeController@changePassword')->name('password.change');
