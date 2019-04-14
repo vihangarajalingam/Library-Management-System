@@ -17,7 +17,9 @@ Route::get('/', 'HomeController@index')->name('home'); //Default home page
 Route::get('/home', 'HomeController@index'); //Rerouted home page
 
 Route::get('/register', 'HomeController@register')->name('registerUser'); //Registration page
-Route::post('/register', 'HomeController@registerForm')->name('registerForm');
+Route::post('/register', 'HomeController@registerForm')->name('registerForm'); //Form submit for registration
 
-Route::get('/password-reset', 'HomeController@changePassword')->name('changePassword');
-Route::post('/password-reset', 'HomeController@changePassword')->name('password.change');
+Route::get('/password-reset', 'HomeController@changePassword')->name('changePassword'); //Change password page
+Route::post('/password-reset', 'HomeController@changePassword')->name('password.change'); //Form submit for change password
+
+Route::post('/book-details', 'BookDetailsController@index')->name('bookDetails'); //Book details page
