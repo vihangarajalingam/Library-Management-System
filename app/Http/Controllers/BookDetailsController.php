@@ -23,4 +23,13 @@ class BookDetailsController extends Controller
         Log::info($statusDescription);
         return view('bookdetails', compact('book', 'statusDescription'));
     }
+
+    public function changeStatus(Request $request)
+    {
+        Log::info($request);
+        $bookstatus = BookStatus::where('bookid', $request->id)
+            ->update(['statusid' => 2, 'updated_at' => now()]);
+        Log::info(date("Y-m-d H:i:s"));
+        return redirect('/');
+    }
 }

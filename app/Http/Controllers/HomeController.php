@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Books;
+use App\BookStatus;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -24,16 +26,47 @@ class HomeController extends Controller
     }
 
     /**
+     * This method will:
+     * Check the dates of the books that were borrowed
+     * Get all the books that are not borrowed, 20 at a time
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $books = Books::paginate(20);
+        $this->checkStatuses();
+        $books = DB::table('books')
+            ->join('bookstatus', 'books.id', '=', 'bookstatus.bookid')
+            ->where('bookstatus.statusid', 1)
+            ->paginate(20);
         return view('index', compact('books'));
     }
 
+    /**
+     * This method wil:
+     * Get all the books whose status is borrowed
+     * Check if the difference in date between the borrowed book and now is greater than one day
+     * If it is greater than one day, change the status to active
+     */
+    public function checkStatuses()
+    {
+        $bookstatuses = BookStatus::where('statusid', 2)
+            ->get();
+        foreach ($bookstatuses as $bookstatus) {
+            $dbTime = new \DateTime($bookstatus->updated_at);
+            $now = new \DateTime();
+            $timeDifference = $now->diff($dbTime);
+            $differenceInDays = (integer)$timeDifference->format("%R%a");
+            Log::info($differenceInDays);
+            if ($differenceInDays < 0) {
+                $bookstatusUpdate = BookStatus::where('bookid', $bookstatus->bookid)
+                    ->update(['statusid' => 1]);
+            }
+        }
+    }
+
+    /**
+     * Show the registration page
+     */
     public function register()
     {
         return view('auth.register');

@@ -23,3 +23,4 @@ Route::get('/password-reset', 'HomeController@changePassword')->name('changePass
 Route::post('/password-reset', 'HomeController@changePassword')->name('password.change'); //Form submit for change password
 
 Route::post('/book-details', 'BookDetailsController@index')->name('bookDetails'); //Book details page
+Route::post('/change-status', 'BookDetailsController@changeStatus')->name('changeStatus'); //Change book status

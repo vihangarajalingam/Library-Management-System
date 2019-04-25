@@ -7,13 +7,13 @@
                 @foreach($books as $book)
                     <div class="col-md-3">
                         <div class="card">
-                            <a href="#" onclick="document.getElementById('book-details-form').submit()">
+                            <a href="#" onclick="document.getElementById('book-details-form{{$book->id}}').submit()">
                                 <img class="card-img-top" src="{{asset('img/favicon.png')}}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{$book->title}}</h5>
                                 </div>
                             </a>
-                            <form id="book-details-form" action="{{route('bookDetails')}}"
+                            <form id="book-details-form{{$book->id}}" action="{{route('bookDetails')}}"
                                   method="post">
                                 @csrf
                                 <input id="id" name="id" hidden value="{{$book->id}}">
