@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes(); //Authentication
+Auth::routes(); // Route used for authentication
 
 Route::get('/', 'HomeController@index')->name('home'); //Default home page
 Route::get('/home', 'HomeController@index'); //Rerouted home page

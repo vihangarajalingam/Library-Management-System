@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Books;
 use App\BookStatus;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
@@ -72,6 +70,17 @@ class HomeController extends Controller
         return view('auth.register');
     }
 
+    /**
+     * This method will:
+     * Get the HTTP request as a parameter
+     * A validator is used to make sure that the username and password is filled
+     * The email is checked to see if it's unique in the users table
+     * The minimum length for the password is 8 characters and it should match with the confirmation field
+     * If the validation fails, an error will be returned
+     * Otherwise a new user will be created and a success message will be returned
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function registerForm(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -92,6 +101,17 @@ class HomeController extends Controller
             ->with('success', 'message');
     }
 
+    /**
+     * This method will:
+     * Get the HTTP request as a parameter
+     * Get the user details from the logged on user in the users table
+     * A validator will make sure that the email of the user matches the user details taken from the DB
+     * The password has to be a minimum of 8 characters and has to be confirmed (retyped)
+     * If the validation doesn't fail, the password will be hashed and updated
+     * A success message will be returned
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function changePassword(Request $request)
     {
         if (count($request->all()) > 0) {
